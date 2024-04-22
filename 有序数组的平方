@@ -1,0 +1,64 @@
+给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。
+
+ 
+
+示例 1：
+
+输入：nums = [-4,-1,0,3,10]
+输出：[0,1,9,16,100]
+解释：平方后，数组变为 [16,1,0,9,100]
+排序后，数组变为 [0,1,9,16,100]
+示例 2：
+
+输入：nums = [-7,-3,2,3,11]
+输出：[4,9,9,49,121]
+ 
+
+提示：
+
+1 <= nums.length <= 104
+-104 <= nums[i] <= 104
+nums 已按 非递减顺序 排序
+
+https://leetcode.cn/problems/squares-of-a-sorted-array/description/
+
+class Solution {
+    public int[] sortedSquares(int[] nums) {
+        int index = 0,middle=0;
+        int[] nums2 = new int[nums.length];
+        if(nums.length==1){
+            nums[0] =  nums[0]*nums[0];
+            return nums;
+        }
+        while( middle<nums.length && nums[middle]<0){
+            nums[middle] = Math.abs(nums[middle]);
+            middle++;
+        }
+       
+        int i=middle-1,j=middle;
+        for(;i>=0 && j<nums.length;index++){
+            if(nums[i]<=nums[j]){
+                nums2[index] = nums[i]*nums[i];
+                i--;
+                continue;
+            }
+            if(nums[j]<=nums[i]){
+                nums2[index] = nums[j]*nums[j];
+                j++;
+            }
+        }
+        while(i>=0){
+            nums2[index] = nums[i]*nums[i];
+            index++;
+            i--;
+        }
+
+        while(j<=nums.length-1){
+            nums2[index] = nums[j]*nums[j];
+            index++;
+            j++;
+        }
+       
+        return nums2;
+    }
+}
